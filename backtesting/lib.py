@@ -320,6 +320,10 @@ http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases
             result.index = resampled.index
         result = result.reindex(index=series.index.union(resampled.index),
                                 method='ffill').reindex(series.index)
+        # !MZ offset korrigiert
+        result = result.shift(-1)
+        result.iloc[-1] = result.iloc[-2]
+        
         return result
 
     wrap_func.__name__ = func.__name__
